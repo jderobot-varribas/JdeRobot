@@ -17,3 +17,5 @@ CMakeFiles/
 lib*.so.*
 Makefile
 
+# Python
+*.pyc
