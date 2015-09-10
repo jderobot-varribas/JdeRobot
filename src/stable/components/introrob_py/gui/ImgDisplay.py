@@ -21,18 +21,18 @@ from PyQt4 import QtGui, QtCore
 import numpy as np
 
 
-class ImgDisplay(QtGui.QWidget):
+class ImgDisplay(QtGui.QMainWindow):
 
     WinSize = QtCore.QSize(64,32)
 
     ## Declare a Qt Signal for message passing
-    Q_SLOT_ImageUpdate = QtCore.pyqtSignal(np.ndarray);
+    Q_SIGNAL_ImageUpdate = QtCore.pyqtSignal(np.ndarray);
 
     def __init__(self):
         QtGui.QWidget.__init__(self)
 
         ## Register SIGNAL receiver
-        self.Q_SLOT_ImageUpdate.connect(self.qreceiver_ImageUpdate)
+        self.Q_SIGNAL_ImageUpdate.connect(self.updateImage)
 
         ## UI Stuff
         self.setWindowTitle("Image Display")
@@ -43,7 +43,8 @@ class ImgDisplay(QtGui.QWidget):
         self.qui_imgLabel.show()
 
 
-    def qreceiver_ImageUpdate(self, img):
+    @QtCore.pyqtSlot(np.ndarray)
+    def updateImage(self, img):
         #print "SIGNAL arg type" +str(type(img))
 
         self.WinSize=QtCore.QSize(img.shape[1],img.shape[0])

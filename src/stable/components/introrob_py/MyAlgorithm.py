@@ -3,14 +3,13 @@ import math
 import jderobot
 import cv2
 import numpy as np
-from gui.ImgDisplay import ImgDisplay
 
 
 class MyAlgorithm():
     def __init__(self, sensor):
         self.sensor = sensor
         self.one=True
-        self.imgDisplay = ImgDisplay()
+
 
     def execute(self):
         # Add your code here
@@ -27,6 +26,16 @@ class MyAlgorithm():
             #print "Image dims: "+str(img.shape)
             #print "Image type: "+str(img.dtype)
 
-            ## Emit a Q_SIGNAL with one argument (np.ndarray)
-            self.imgDisplay.Q_SLOT_ImageUpdate.emit(img)
 
+            ## Emit a Q_SIGNAL with one argument (np.ndarray)
+            #self.imgDisplay.Q_SLOT_ImageUpdate.emit(img)
+            #@Deprecated
+            self.debugImg(img)
+
+    def debugImg(self, img): pass
+    """ Decouple Qt SIGNAL by something like abstract function.
+    You must override it with a lambda function that calls
+    SIGNAL.emit(), or whatever, so it becomes like SLOT syntax
+    via SIGNAL.connect(SLOT) but reversed:
+    emitterFunct(x) = lambda(x): (SIGNAL.emit(x))
+    """
