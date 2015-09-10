@@ -29,7 +29,7 @@ class ImgDisplay(QtGui.QMainWindow):
     Q_SIGNAL_ImageUpdate = QtCore.pyqtSignal(np.ndarray);
 
     def __init__(self):
-        QtGui.QWidget.__init__(self)
+        QtGui.QMainWindow.__init__(self)
 
         ## Register SIGNAL receiver
         self.Q_SIGNAL_ImageUpdate.connect(self.updateImage)
