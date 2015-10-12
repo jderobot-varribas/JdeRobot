@@ -40,8 +40,8 @@ if __name__ == '__main__':
     ## Init Qt context (with GUI capabilities)
     app = QtGui.QApplication(sys.argv)
 
-    imgDisplay = ImgDisplay()
-    algorithm.debugImg = lambda(img): imgDisplay.Q_SIGNAL_ImageUpdate.emit(img)
+    #imgDisplay = ImgDisplay()
+    #algorithm.debugImg = lambda(img): imgDisplay.Q_SIGNAL_ImageUpdate.emit(img)
 
     frame = MainWindow()
     frame.setSensor(sensor)

@@ -20,6 +20,9 @@ from PyQt4 import QtGui,QtCore,uic
 from sensors.colorFilterValues import ColorFilterValues
 from gui.colorFilter import Ui_Form
 
+import cv2
+from ImgDisplay import ImgDisplay
+
 class ColorFilterWidget(QtGui.QWidget, Ui_Form):
     IMAGE_COLS_MAX=320
     IMAGE_ROWS_MAX=240
@@ -46,9 +49,12 @@ class ColorFilterWidget(QtGui.QWidget, Ui_Form):
         self.vmaxSlider.valueChanged[int].connect(self.vmaxValueChange)
 
     def updateImage(self):
-        self.setInputImage()
-        self.setThresoldImage()
-        self.winParent.getSensor().setColorFilterValues(self.filterValues)
+        img = self.setInputImage()
+        #self.setThresoldImage()
+        #self.winParent.getSensor().setColorFilterValues(self.filterValues)
+        if img is not None:
+            img_out = self.processImage(img)
+            self.setOutputImage(img_out)
 
     def setInputImage(self):
 
@@ -61,12 +67,32 @@ class ColorFilterWidget(QtGui.QWidget, Ui_Form):
             image = QtGui.QImage(img.data, img.shape[1], img.shape[0], img.shape[1]*img.shape[2], QtGui.QImage.Format_RGB888);
             self.inputImage.setPixmap(QtGui.QPixmap.fromImage(image))
 
+        return img
+
 
     def setThresoldImage(self):
         img = self.winParent.getSensor().getThresoldImage()
         if img is not None:
             image = QtGui.QImage(img.data, img.shape[1], img.shape[0], img.shape[1], QtGui.QImage.Format_Indexed8)
             self.outputFilterImage.setPixmap(QtGui.QPixmap.fromImage(image))
+
+
+    def setOutputImage(self, img):
+        image = QtGui.QImage(img.data, img.shape[1], img.shape[0], img.shape[1]*img.shape[2], QtGui.QImage.Format_RGB888);
+        self.outputFilterImage.setPixmap(QtGui.QPixmap.fromImage(image))
+
+
+    def processImage(self, img_in):
+        hsv = cv2.cvtColor(img_in, cv2.COLOR_RGB2HSV)
+
+        vmin = (self.filterValues.hmin, self.filterValues.smin, self.filterValues.vmin)
+        vmax = (self.filterValues.hmax, self.filterValues.smax, self.filterValues.vmax)
+        mask = cv2.inRange(hsv, vmin, vmax)
+
+        img_out = cv2.bitwise_and(img_in, img_in, mask=mask)
+
+        return img_out
+
 
     def track(self):
         if(self.trackObject==False):
@@ -85,15 +111,15 @@ class ColorFilterWidget(QtGui.QWidget, Ui_Form):
     def resetValues(self):
         self.filterValues.setHMin(0)
         self.hminSlider.setValue(self.filterValues.getHMin())
-        self.filterValues.setHMax(0)
+        self.filterValues.setHMax(180)
         self.hmaxSlider.setValue(self.filterValues.getHMax())
         self.filterValues.setSMin(0)
         self.sminSlider.setValue(self.filterValues.getSMin())
-        self.filterValues.setSMax(0)
+        self.filterValues.setSMax(255)
         self.smaxSlider.setValue(self.filterValues.getSMax())
         self.filterValues.setVMin(0)
         self.vminSlider.setValue(self.filterValues.getVMin())
-        self.filterValues.setVMax(0)
+        self.filterValues.setVMax(255)
         self.vmaxSlider.setValue(self.filterValues.getVMax())
 
     def closeEvent(self, event):
