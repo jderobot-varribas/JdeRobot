@@ -92,6 +92,15 @@ class Sensor:
             else:
                 print 'Interface pose3D not connected'
 
+            basenavdatagps = ic.propertyToProxy("Introrob.NavdataGPS.Proxy")
+            print basenavdatagps,type(basenavdatagps)
+            self.navdataGPSProxy=jderobot.NavdataGPSPrx.checkedCast(basenavdatagps)
+            if self.navdataGPSProxy:
+                self.gpsdata=self.navdataGPSProxy.getNavdataGPS()
+                print 'GPS DATA:\n',self.gpsdata
+            else:
+                print 'Interface NavdataGPS not connected'
+
         except:
             traceback.print_exc()
 	    exit()
@@ -102,6 +111,7 @@ class Sensor:
         self.updateCamera()
         self.updateNavdata()
         self.updatePose()
+        self.updateNavdataGPS()
         self.lock.release()
 
     def updateCamera(self):
@@ -118,10 +128,24 @@ class Sensor:
         if self.pose3DProxy:
             self.pose=self.pose3DProxy.getPose3DData()
 
+    def updateNavdataGPS(self):
+        if self.navdataGPSProxy:
+            self.gpsdata=self.navdataGPSProxy.getNavdataGPS()
+            print self.gpsdata
+
     def getNavdata(self):
         if self.navdataProxy:
             self.lock.acquire()
             tmp=self.navdata
+            self.lock.release()
+            return tmp
+
+        return None
+
+    def getNavdataGPS(self):
+        if self.navdataGPSProxy:
+            self.lock.acquire()
+            tmp=self.gpsdata
             self.lock.release()
             return tmp
 
