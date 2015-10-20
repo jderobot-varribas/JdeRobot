@@ -205,49 +205,46 @@ void ARDroneDriver::initInterfaces()
 {
 	try{
 		Ice::PropertiesPtr prop = ic->getProperties();
-		
+
+		//Base & Extra adapters (high|low priority)
+		std::string BaseEndpoints  = prop->getProperty("ArDrone.Base.Endpoints");
+		std::string ExtraEndpoints = prop->getProperty("ArDrone.Extra.Endpoints");
+		Ice::ObjectAdapterPtr adapterBase  = ic->createObjectAdapterWithEndpoints("ArDroneBaseServer", BaseEndpoints);
+		Ice::ObjectAdapterPtr adapterExtra = ic->createObjectAdapterWithEndpoints("ArDroneExtraServer", ExtraEndpoints);
+
 		//Interface camera
-		std::string CameraEndpoints = prop->getProperty("ArDrone.Camera.Endpoints");
-		Ice::ObjectAdapterPtr adapterCamera =ic->createObjectAdapterWithEndpoints("ArDroneCameraServer", CameraEndpoints);
 		std::string cameraName = prop->getProperty("ArDrone.Camera.Name");
 		Ice::ObjectPtr object = new cameraserver::CameraI("ArDrone.Camera.", ic);
-		adapterCamera->add(object, ic->stringToIdentity(cameraName));
-		adapterCamera->activate();
+		adapterExtra->add(object, ic->stringToIdentity(cameraName));
+
 		//Interface pose3D
 		std::string pose3DName = prop->getProperty("ArDrone.Pose3D.Name");		
-		std::string Pose3DEndpoints = prop->getProperty("ArDrone.Pose3D.Endpoints");
-		Ice::ObjectAdapterPtr adapterPose3D =ic->createObjectAdapterWithEndpoints("ArDronePose3D", Pose3DEndpoints);
 		Ice::ObjectPtr pose3DO =new pose3D::Pose3DI(this);
-		adapterPose3D->add(pose3DO,ic->stringToIdentity(pose3DName));
-		adapterPose3D->activate();		
+		adapterBase->add(pose3DO,ic->stringToIdentity(pose3DName));
+
 		//Interface remoteConfig
 		std::string remoteName = prop->getProperty("ArDrone.RemoteConfig.Name");		
-		std::string remoteEndpoints = prop->getProperty("ArDrone.RemoteConfig.Endpoints");
-		Ice::ObjectAdapterPtr adapterremote =ic->createObjectAdapterWithEndpoints("ArDroneRemoteConfig",remoteEndpoints);
 		Ice::ObjectPtr remoteO =new remoteconfig::RemoteConfigI(this);
-		adapterremote->add(remoteO,ic->stringToIdentity(remoteName));
-		adapterremote->activate();			
+		adapterExtra->add(remoteO,ic->stringToIdentity(remoteName));
+
 		//Interface Navdata
 		std::string navName = prop->getProperty("ArDrone.Navdata.Name");		
-		std::string navEndpoints = prop->getProperty("ArDrone.Navdata.Endpoints");
-		Ice::ObjectAdapterPtr adapternav =ic->createObjectAdapterWithEndpoints("ArDroneNavdata",navEndpoints);
 		Ice::ObjectPtr navO =new navdata::NavdataI();
-		adapternav->add(navO,ic->stringToIdentity(navName));
-		adapternav->activate();		
+		adapterBase->add(navO,ic->stringToIdentity(navName));
+
 		//Interface CMDVel
 		std::string cmdName = prop->getProperty("ArDrone.CMDVel.Name");		
-		std::string cmdEndpoints = prop->getProperty("ArDrone.CMDVel.Endpoints");
-		Ice::ObjectAdapterPtr adaptercmd =ic->createObjectAdapterWithEndpoints("ArDroneCMDVel",cmdEndpoints);
 		Ice::ObjectPtr cmdO =new cmdvel::CMDVelI();
-		adaptercmd->add(cmdO,ic->stringToIdentity(cmdName));
-		adaptercmd->activate();	
+		adapterBase->add(cmdO,ic->stringToIdentity(cmdName));
+
 		//Interface Extra
 		std::string extraName = prop->getProperty("ArDrone.Extra.Name");		
-		std::string extraEndpoints = prop->getProperty("ArDrone.Extra.Endpoints");
-		Ice::ObjectAdapterPtr adapterextra =ic->createObjectAdapterWithEndpoints("ArDroneExtra",extraEndpoints);
 		Ice::ObjectPtr extraO =new ardrone_extra::ExtraI();
-		adapterextra->add(extraO,ic->stringToIdentity(extraName));
-		adapterextra->activate();									
+		adapterBase->add(extraO,ic->stringToIdentity(extraName));
+
+		// Get up addapters
+		adapterBase->activate();
+		adapterExtra->activate();
 
 	}catch (const Ice::Exception& ex) {
 		std::cerr << ex << std::endl;
