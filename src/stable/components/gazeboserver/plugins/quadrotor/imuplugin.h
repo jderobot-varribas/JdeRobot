@@ -5,9 +5,9 @@
 #include <gazebo/transport/transport.hh>
 #include <gazebo/msgs/msgs.hh>
 #include <pthread.h>
-#include <pose3d.h>
 #include <Ice/Ice.h>
 #include <IceUtil/IceUtil.h>
+#include <interfaces/pose3di.h>
 
 #ifndef IMUPLUGIN_H
 #define IMUPLUGIN_H

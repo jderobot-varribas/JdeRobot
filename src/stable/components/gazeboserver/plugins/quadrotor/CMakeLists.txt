@@ -7,7 +7,7 @@ include_directories(
     ${INTERFACES_CPP_DIR}
     ${LIBS_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/interfaces
+#    ${CMAKE_CURRENT_SOURCE_DIR}/interfaces
 )
 
 link_directories(${GAZEBO_LIBRARY_DIRS}
@@ -20,6 +20,7 @@ add_library(quadrotorplugin SHARED quadrotorplugin.cc
                 quadrotor_parser.cpp
                 quadrotor_config.cpp
                 interfaces/navdatai.cpp
+                interfaces/pose3di.cpp
 )
 
 target_link_libraries(quadrotorplugin 
