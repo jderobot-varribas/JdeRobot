@@ -56,7 +56,7 @@ void ImuPlugin::OnUpdate() {
     math::Quaternion aux(this->parentSensor->GetOrientation().GetRoll(),
                          this->parentSensor->GetOrientation().GetPitch(),
                          pose.rot.GetYaw());
-    imuplugin.pose.pos = pose.pos;
+    imuplugin.pos = pose.pos;
     imuplugin.orien = aux;
     pthread_mutex_unlock(&this->mutex_imuplugin);
 }

@@ -25,7 +25,7 @@ public:
     virtual void Init ();
 
     struct imuplugin_t {
-        math::Pose pose;
+        math::Vector3    pos;
         math::Quaternion orien;
     };
 
