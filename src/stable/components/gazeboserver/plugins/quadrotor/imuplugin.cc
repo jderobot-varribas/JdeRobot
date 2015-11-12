@@ -21,6 +21,13 @@ void ImuPlugin::Load(sensors::SensorPtr _sensor, sdf::ElementPtr _sdf) {
     this->parentSensor =
         boost::dynamic_pointer_cast<sensors::ImuSensor>(_sensor);
 
+    // and much more ...
+    std::cout<<"ImuPlugin::Load()\n\tsensor parent: "<<_sensor->GetParentName()<<std::endl;
+    std::cout<<"\t ImuPlugin type: "<<this->GetType()<<std::endl;
+    std::cout<<"\t handle: "<<this->GetHandle()<<std::endl;
+    std::cout<<"\t parent Id: "<<_sensor->GetId()<<std::endl;
+    std::cout<<"\t parent type: "<<_sensor->GetType()<<std::endl;
+
     if (!parentSensor)
         gzerr << "No ImuSensor detected.\n";
 

@@ -166,7 +166,7 @@ void QuadrotorPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
     sc = new StateController(this);
 
     pthread_t thr_ice;
-    pthread_create(&thr_ice, NULL, &thread_QuadrotorPluginICE, (void*) this);
+    //pthread_create(&thr_ice, NULL, &thread_QuadrotorPluginICE, (void*) this);
     pthread_t thr_state;
     pthread_create(&thr_state, NULL, &thread_state_controller, (void*) this);
 
@@ -178,6 +178,56 @@ void QuadrotorPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf) {
 }
 
 void QuadrotorPlugin::Init() {
+    sensors::SensorManager *sm = sensors::SensorManager::Instance();
+
+
+    /// But simple this >>>
+    std::cout<<"QuadrotorPlugin::Init()"<<std::endl;
+    std::cout<<"  Model name: "<<model->GetName()<<std::endl;
+    std::cout<<"  base_link Id: "<<model->GetChildLink("base_link")->GetId()<<std::endl;
+#if 0
+    std::cout<<"  Gathering all sensors: [1]"<<std::endl;
+    std::string sensors[]={"cam_sensor_ventral","cam_sensor_frontal","sonar","imu_sensor"};
+    int N=sizeof(sensors)/sizeof(std::string);
+    for (int i=0;i<N;i++){
+        sensors::SensorPtr s = sm->GetSensor(sensors[i]);
+        std::cout<<"\t"<<sensors[i]<<": "<<s<<std::endl;
+    }
+#endif
+    std::cout<<"  Gathering all sensors: [2]"<<std::endl;
+    for (sensors::SensorPtr s: sm->GetSensors()){
+        if (s->GetParentId() != model->GetChildLink("base_link")->GetId()) continue;
+        std::cout << boost::format("\tName %1% (parent: %2%)\n") % s->GetName() % s->GetParentName();
+        std::cout << boost::format("\t\tId: %1% \t ParentId: %2% \n") % s->GetId() %  s->GetParentId();
+        std::cout << boost::format("\t\tAddress: %1% \n") % (void*)&(*s);
+        std::cout << boost::format("\t\tTopic: %1% \n") % s->GetTopic();
+
+    }
+    std::cout<<model->GetSensorCount()<<std::endl;
+    /// makes the magic <<<
+    //model->GetByName()
+    //sdf->GetElement()
+    //model->GetNearestEntityBelow()
+
+
+#if 0
+    //previous tries....
+    physics::BasePtr base;
+    std::stack<physics::BasePtr> stack;
+    stack.push(model);
+
+    while(stack.size()>0){
+        base = stack.top();
+        stack.pop();
+        std::cout<<"  Id:"<<base->GetId()<<" \tName:"<<base->GetName()<<"\t Type:"<<base->GetType()<<std::endl;
+
+        int n = base->GetChildCount();
+        for (int i=0;i<n;i++)
+            stack.push(base->GetChild(i));
+    }
+#endif
+
+
     this->updateConnection = event::Events::ConnectWorldUpdateBegin(
           boost::bind(&QuadrotorPlugin::OnUpdate, this));
 

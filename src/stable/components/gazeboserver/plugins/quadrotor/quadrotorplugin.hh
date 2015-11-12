@@ -39,7 +39,7 @@
 
 //ICE interfaces
 //#include <quadrotor.h>
-#include <pose3d.h>
+//#include <pose3d.h>
 #include <remoteConfig.h>
 #include <camera.h>
 #include <cmdvel.h>
@@ -54,6 +54,9 @@
 
 #include "interfaces/navdatai.h"
 #include <visionlib/colorspaces/colorspacesmm.h>
+
+#include <gazebo/sensors/sensors.hh>
+#include <gazebo/sensors/SensorManager.hh>
 
 #include <sstream>
 

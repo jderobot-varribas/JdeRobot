@@ -26,6 +26,9 @@ ToggleCamPlugin::ToggleCamPlugin() : CameraPlugin(), count(0) {
 void ToggleCamPlugin::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf) {
 	// Don't forget to load the camera plugin
 	CameraPlugin::Load(_parent,_sdf);
+    std::cout<<"\t ToggleCamPlugin type: "<<this->GetType()<<std::endl;
+    std::cout<<"\t parent Id: "<<_parent->GetId()<<std::endl;
+    std::cout<<"\t parent type: "<<_parent->GetType()<<std::endl;
 
     if (!_sdf->HasElement("initialStatus"))
         on_ = 0;
