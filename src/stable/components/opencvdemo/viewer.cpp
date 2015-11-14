@@ -25,6 +25,8 @@
 #include "opencv/highgui.h"
 #include <cv.h>
 #include <glade/glade.h>
+#include <opencv2/imgproc/imgproc.hpp>
+#include <opencv2/video/tracking.hpp>
 /*#include <highgui.h>*/
 
 using namespace cv;
@@ -755,7 +757,7 @@ void Viewer::harris( Mat image )
 		//gray = cvCreateImage(cvSize(image.width,image.height), 8, 3);
 		Mat gray(image.size(), CV_8UC1);
 		//CvMemStorage* storage = cvCreateMemStorage(0);        
-		vector<Vec3f> circles;
+      std::vector<Vec3f> circles;
 		//cvCvtColor( &src, gray, CV_BGR2GRAY );
 		cvtColor(src, gray, CV_BGR2GRAY);
 		//cvSmooth( gray, gray, CV_GAUSSIAN, 9, 9 ); 
@@ -815,7 +817,7 @@ void Viewer::harris( Mat image )
 			Mat gray(image.size(), CV_8UC1);
 			//CvMemStorage* storage = cvCreateMemStorage(0);
       //CvSeq* lines = 0;
-      vector<Vec2f> lines;
+      std::vector<Vec2f> lines;
       size_t i;
 
 			//cvCvtColor(&src, gray, CV_RGB2GRAY);	
@@ -870,7 +872,7 @@ void Viewer::harris( Mat image )
 				label_long->show();
         label_gap->show();
 
-	vector<Vec4i> linesp;
+                std::vector<Vec4i> linesp;
 				
 				//lines = cvHoughLines2( dst,
                                //storage,
@@ -966,11 +968,11 @@ void Viewer::harris( Mat image )
 				int i;
 				int numpoints =90; // 300;
 				//CvPoint2D32f points1[numpoints];	
-				vector<Point2f> points[2];/*Feature points from img1*/
+      std::vector<Point2f> points[2];/*Feature points from img1*/
 				//CvPoint2D32f points2[numpoints];	
 				//vector<Point2f> points2; /*Location of the feature points in img2*/
-				vector<uchar> foundPoint;			
-				vector<float> errors;
+      std::vector<uchar> foundPoint;
+      std::vector<float> errors;
 				//CvSize sizeWindow = cvSize(5,5);
 				Size sizeWindow (31,31)/*(5,5)*/, pixWinSize(15,15);
 				//CvTermCriteria termCriteria;
@@ -990,7 +992,7 @@ void Viewer::harris( Mat image )
 				/* Pyramidal Lucas Kanade Optical Flow algorithm, search feature points in img2 */
 				//cvCalcOpticalFlowPyrLK(img1, img2, aux3, aux4, points1, points2, numpoints, sizeWindow, 5, foundPoint, errors, termCriteria, 0);
 
-				calcOpticalFlowPyrLK(img1, img2, points[0], 
+                cv::calcOpticalFlowPyrLK(img1, img2, points[0],
 				points[1], foundPoint, errors, sizeWindow, 5, 
 				criteria);
 

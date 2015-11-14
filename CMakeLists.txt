@@ -142,6 +142,8 @@ include(${DEPS_DIR}/pyqt4/CMakeLists.txt)
 include(${DEPS_DIR}/qwt5_py/CMakeLists.txt)
 include(${DEPS_DIR}/matplotlib_py/CMakeLists.txt)
 include(${DEPS_DIR}/qwt5/CMakeLists.txt)
+include(${DEPS_DIR}/cuda/CMakeLists.txt)
+include(${DEPS_DIR}/ardrone_sdk/CMakeLists.txt)
 
 
 #include(${CMAKE_CURRENT_SOURCE_DIR}/../../../libs/CMakeLists.txt)
@@ -161,7 +163,7 @@ add_subdirectory (${CMAKE_CURRENT_SOURCE_DIR}/src)
 #                 #
 ###################
 
-INSTALL(FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/stable/interfaces/cpp/jderobot/libJderobotInterfaces.so DESTINATION /usr/local/lib/jderobot)
+INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/src/stable/interfaces/libJderobotInterfaces.so DESTINATION /usr/local/lib/jderobot)
 
 # Install python files
 FILE(GLOB_RECURSE HEADERS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/stable/interfaces/python/jderobot/*py)
@@ -204,7 +206,7 @@ FOREACH (currentBin ${LIST_COMPONENTS})
     #SET(EXIST EXIST-NOTFOUND)
     find_file(EXIST NAMES ${currentBin} PATHS ${CMAKE_CURRENT_SOURCE_DIR}/src/components/${currentBin})
     #IF (EXIST)
-    INSTALL (FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/stable/components/${currentBin}/${currentBin} DESTINATION /usr/local/bin OPTIONAL PERMISSIONS OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE)
+    INSTALL (PROGRAMS ${CMAKE_CURRENT_SOURCE_DIR}/src/stable/components/${currentBin}/${currentBin} DESTINATION /usr/local/bin OPTIONAL)
     #ENDIF(EXIST)
     #MESSAGE("${EXIST}")
 ENDFOREACH(currentBin)
@@ -261,7 +263,7 @@ include (InstallRequiredSystemLibraries)
 SET (CPACK_GENERATOR "DEB")
 SET (CPACK_SOURCE_GENERATOR TGZ)
 SET (CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-SET (CPACK_SET_DESTDIR "on")
+SET (CPACK_SET_DESTDIR ON)
 SET (CPACK_PACKAGING_INSTALL_PREFIX "/usr/local")
 
 

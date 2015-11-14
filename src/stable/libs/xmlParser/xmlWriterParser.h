@@ -25,8 +25,8 @@
 
 #include <libxml++/libxml++.h>
 #include <iostream>
-#include <cv.h>
 #include <eigen3/Eigen/Dense>
+#include <opencv2/core/core.hpp>
 
 
 
