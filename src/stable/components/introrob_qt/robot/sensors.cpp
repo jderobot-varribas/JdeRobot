@@ -1,4 +1,5 @@
 #include "sensors.h"
+#include <easyiceconfig/proxies.hpp>
 
 Sensors::Sensors(Ice::CommunicatorPtr ic)
 {
@@ -7,25 +8,14 @@ Sensors::Sensors(Ice::CommunicatorPtr ic)
 
     ////////////////////////////// ENCODERS //////////////////////////////
     // Contact to ENCODERS interface
-    Ice::ObjectPrx baseEncoders = ic->propertyToProxy("introrob.Encoders.Proxy");
-    if (0 == baseEncoders) {
-		encodersON = false;
-		std::cout << "Encoders configuration not specified" <<std::endl;
-        //throw "Could not create proxy with encoders";
-	}else{
-		// Cast to encoders
 		try {
-			eprx = jderobot::EncodersPrx::checkedCast(baseEncoders);
-			if (0 == eprx)
-				throw "Invalid proxy introrob.Encoders.Proxy";
-
+			eprx = easyiceconfig::proxies::createProxy<jderobot::EncodersPrx>(ic, "introrob.Encoders.Proxy", false);
 			encodersON = true;
-			std::cout << "Encoders connected" << std::endl;
-		}catch (Ice::ConnectionRefusedException& e){
+		}catch (Ice::Exception& e){
 			encodersON=false;
-			std::cout << "Encoders inactive" << std::endl;
+			std::cout << "Encoders inactive. Reason:" << std::endl;
+			std::cout << e << std::endl << std::endl;
 		}
-	}
 
 
     ////////////////////////////// CAMERA1 /////////////////////////////2
