@@ -5,6 +5,7 @@
 
 #include <Ice/Ice.h>
 #include <IceUtil/IceUtil.h>
+#include <easyiceconfig/EasyProxy.h>
 
 #include <jderobot/encoders.h>
 #include <jderobot/camera.h>
@@ -38,10 +39,10 @@ private:
     Ice::CommunicatorPtr ic;
 
     // ICE INTERFACES
-    jderobot::EncodersPrx eprx;
+    EasyIce::EasyProxy<jderobot::EncodersPrx> eprx;
     jderobot::EncodersDataPtr encodersData;
     jderobot::CameraPrx camera2;
-    jderobot::CameraPrx camera1;
+    EasyIce::EasyProxy<jderobot::CameraPrx> camera1;
 
     //ICE interfaces available for connection on demand
     bool laserON;
@@ -56,7 +57,8 @@ private:
 
     //LASER DATA
     bool boolLaser;
-    jderobot::LaserPrx laserprx;
+
+    EasyIce::EasyProxy<jderobot::LaserPrx> laserprx;
     jderobot::LaserDataPtr ld;
     std::vector<float> laserData;
 
