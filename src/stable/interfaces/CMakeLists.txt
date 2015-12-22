@@ -38,8 +38,8 @@ FILE(GLOB_RECURSE SLICE_FILES
 
 ### Trick to publich .ice files into CMake's sources
 file(GLOB_RECURSE SLICE_DEFINITIONS "slice/**.ice")
-file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/dummy.c "")
-add_library(JderobotInterfaces_Definitions ${CMAKE_CURRENT_BINARY_DIR}/dummy.c ${SLICE_DEFINITIONS})
+add_library(JderobotInterfaces_Definitions ${SLICE_DEFINITIONS})
+set_target_properties(JderobotInterfaces_Definitions PROPERTIES LINKER_LANGUAGE CXX)
 
 
 foreach(slice_rel_path ${SLICE_FILES})
