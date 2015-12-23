@@ -31,7 +31,9 @@ namespace jderobot{
 namespace interfaces{
 
 
-class ImageProviderI: virtual public jderobot::interfaces::ImageProvider {
+class ImageProviderI:
+        virtual public jderobot::interfaces::ImageProvider
+{
 public:
     ImageProviderI();
     virtual ~ImageProviderI();

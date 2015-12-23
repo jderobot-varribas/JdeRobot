@@ -61,7 +61,7 @@ ImageProviderI::getImageData_async (const jderobot::interfaces::AMD_ImageProvide
 }
 
 void
-ImageProviderI::_getImageData_async (const jderobot::interfaces::AMD_ImageProvider_getImageDataPtr& cb,const std::string& format, const Ice::Current& c){
+ImageProviderI::_getImageData_async (const jderobot::interfaces::AMD_ImageProvider_getImageDataPtr& cb,const std::string& /*format*/, const Ice::Current& /*c*/){
     //Non async response
     if (!imageData.pixelData.size() == 0)
         throw DataNotExistException();

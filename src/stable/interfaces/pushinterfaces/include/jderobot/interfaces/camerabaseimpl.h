@@ -35,7 +35,7 @@ namespace interfaces{
 typedef boost::shared_ptr<CameraDescription> CameraDescriptionPtr;
 
 class CameraBaseI:
-        public jderobot::interfaces::Camera,
+        virtual public jderobot::interfaces::Camera,
         virtual public jderobot::interfaces::ImageProviderI
 {
 public:
