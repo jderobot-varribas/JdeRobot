@@ -26,6 +26,8 @@ set_target_properties(${PROJECT_NAME}_headers PROPERTIES LINKER_LANGUAGE CXX)
 set(SOURCES
 	src/imageproviderimpl.cpp
 	src/camerabaseimpl.cpp
+	src/pushimageproviderimpl.cpp
+	src/pushcameraimpl.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
