@@ -200,7 +200,7 @@ INSTALL(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/src/stable/interfaces/cpp/jderobot
 )
 
 # Install slice
-INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/stable/interfaces/slice
+INSTALL(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/stable/interfaces/slice/
 	DESTINATION /usr/local/share/jderobot/slice/
 	COMPONENT core
 )
