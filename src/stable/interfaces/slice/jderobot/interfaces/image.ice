@@ -15,10 +15,11 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see http://www.gnu.org/licenses/. 
  *
- *  Author: Roberto Calvo <rocapal [at] gsyc [dot] es>
- *			David Lobato Bravo <dav.lobato@gmail.com>
- *	     	Sara Marugán Alonso <smarugan@gsyc.es>
- *        Victor Arribas <v.arribas.urjc@gmail.com>
+ *  Authors:
+ *      Roberto Calvo <rocapal [at] gsyc [dot] es>
+ *      David Lobato Bravo <dav.lobato@gmail.com>
+ *      Sara Marugán Alonso <smarugan@gsyc.es>
+ *      Victor Arribas <v.arribas.urjc@gmail.com> (2015)
  *
  */
 
@@ -72,10 +73,10 @@ module interfaces{
     /** 
      * Returns the image source description.
      */
-    idempotent ImageDescription getImageDescription();
+     idempotent ImageDescription getImageDescription();
 
-		idempotent ImageFormats getAvailableImageFormats();
-	
+     idempotent ImageFormats getAvailableImageFormats();
+
     /**
      * Returns the latest data.
      */
