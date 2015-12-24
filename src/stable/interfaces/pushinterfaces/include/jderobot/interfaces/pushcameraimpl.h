@@ -36,7 +36,7 @@ public:
     PushCameraI ();
     virtual ~PushCameraI ();
 
-    void pushInitialFrame(const jderobot::interfaces::CameraDescription description, const cv::Mat, std::string format);
+    void pushInitialFrame(const jderobot::interfaces::CameraDescription description, const unsigned char* image, std::string format, int width, int height, int channels, size_t pixel_size=1);
 
 };
 

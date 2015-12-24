@@ -29,9 +29,11 @@ PushCameraI::~PushCameraI ()
 {}
 
 void
-PushCameraI::pushInitialFrame(const CameraDescription description, const cv::Mat img, std::string format){
-    PushImageProviderI::pushInitialFrame(img, format);
-
+PushCameraI::pushInitialFrame(const CameraDescription description,
+        const unsigned char *image, std::string format,
+        int width, int height, int channels, size_t pixel_size)
+{
+    PushImageProviderI::pushInitialFrame(image, format, width, height, channels, pixel_size);
     {
         IceUtil::Mutex::Lock lock_guard(mutex);
         *cameraDescriptionPtr = description;

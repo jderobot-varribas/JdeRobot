@@ -29,22 +29,22 @@ PushImageProviderI::~PushImageProviderI ()
 {}
 
 void
-PushImageProviderI::pushInitialFrame(const cv::Mat img, std::string format){
+PushImageProviderI::pushInitialFrame(const unsigned char *img_data, std::string format, int width, int height, int channels, size_t pixel_size){
     IceUtil::Mutex::Lock lock_guard(mutex);
     imageData.description.format = format;
-    imageData.description.height = img.rows;
-    imageData.description.width  = img.cols;
-    imageData.description.size = img.rows*img.cols*3;
+    imageData.description.height = height;
+    imageData.description.width  = width;
+    imageData.description.size = width*height*channels*pixel_size;
 
-    imageData.pixelData.resize(imageDescription.size);
-    memcpy(imageData.pixelData.data(), img.data, imageData.pixelData.size());
+    imageData.pixelData.resize(imageData.description.size);
+    memcpy(imageData.pixelData.data(), img_data, imageData.pixelData.size());
 
     imageFormats.clear();
-    imageFormats.push_back(imageDescription.format);
+    imageFormats.push_back(imageData.description.format);
 }
 
 void
-PushImageProviderI::pushNextFrame(const cv::Mat img){
+PushImageProviderI::pushNextFrame(const unsigned char* image_data){
     IceUtil::Mutex::Lock lock_guard(mutex);
-    memcpy(imageData.pixelData.data(), img.data, imageData.pixelData.size());
+    memcpy(imageData.pixelData.data(), image_data, imageData.pixelData.size());
 }

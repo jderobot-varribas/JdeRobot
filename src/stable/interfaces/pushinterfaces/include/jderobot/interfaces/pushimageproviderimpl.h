@@ -20,7 +20,6 @@
 #ifndef PUSHIMAGEPROVIDER_IMPL_H
 #define PUSHIMAGEPROVIDER_IMPL_H
 
-#include <opencv2/core/core.hpp>
 #include <jderobot/interfaces/camerabaseimpl.h>
 
 
@@ -36,8 +35,8 @@ public:
     virtual ~PushImageProviderI ();
 
 
-    void pushInitialFrame(const cv::Mat, std::string format);
-    void pushNextFrame(const cv::Mat);
+    void pushInitialFrame(const unsigned char* image_data, std::string format, int width, int height, int channels, size_t pixel_size=1);
+    void pushNextFrame(const unsigned char* image_data);
 
 };
 
