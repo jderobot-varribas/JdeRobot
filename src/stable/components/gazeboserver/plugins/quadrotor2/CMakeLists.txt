@@ -5,6 +5,7 @@ include_directories(
 	${INTERFACES_CPP_DIR}
 	${LIBS_DIR}
 	${easyiceconfig_INCLUDE_DIRS}
+	${JderobotPushInterfaces_INCLUDE_DIRS}
 )
 
 link_directories(
@@ -12,6 +13,7 @@ link_directories(
 	${INTERFACES_CPP_DIR}
 	${LIBS_DIR}/visionlib/colorspaces
 	${easyiceconfig_LIBRARY_DIRS}
+	${JderobotPushInterfaces_LIBRARY_DIRS}
 )
 
 
@@ -70,6 +72,7 @@ target_link_libraries(quadrotorplugin2
 	JderobotInterfaces
 	${ZeroCIce_LIBRARIES}
 	${easyiceconfig_LIBRARIES}
+	${JderobotPushInterfaces_LIBRARIES}
 )
 
 # Application

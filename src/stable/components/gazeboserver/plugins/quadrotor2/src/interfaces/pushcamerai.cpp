@@ -32,28 +32,13 @@ PushCameraI::~PushCameraI ()
 void
 PushCameraI::onCameraSensorBoostrap(const cv::Mat img, const gazebo::sensors::CameraSensorPtr /*camerasensor*/){
     ONDEBUG_INFO(std::cout << "PushCameraI::onCameraSensorBoostrap()" << std::endl;)
-    lock_guard_t RAII_lock(mutex);
-    imageDescription = new ImageDescription();
-    imageDescription->format = "RGB8";// colorspaces::ImageRGB8::FORMAT_RGB8->name();
-    imageDescription->height = img.rows;
-    imageDescription->width  = img.cols;
-    imageDescription->size = img.rows*img.cols*3;
-
-    //cameraDescription = new CameraDescription();
-    //gazebo::rendering::CameraPtr cam = camerasensor->GetCamera();
-
-    imageData = new ImageData();
-    imageData->description = imageDescription;
-    imageData->pixelData.resize(imageDescription->size);
-    memcpy(imageData->pixelData.data(), img.data, imageData->pixelData.size());
-
-    imageFormats = ImageFormats(1);
-    imageFormats.push_back(imageDescription->format);
+    jderobot::interfaces::CameraDescription dummy;
+    memset(&dummy, 0, sizeof(jderobot::interfaces::CameraDescription));
+    PushCameraI::pushInitialFrame(dummy, img.data, "RGB8", img.cols, img.rows, 3, 1);
 }
 
 void
 PushCameraI::onCameraSensorUpdate(const cv::Mat img){
     ONDEBUG_VERBOSE(std::cout << "PushCameraI::onCameraSensorUpdate()" << std::endl;)
-    lock_guard_t RAII_lock(mutex);
-    memcpy(imageData->pixelData.data(), img.data, imageData->pixelData.size());
+    PushCameraI::pushNextFrame(img.data);
 }

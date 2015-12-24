@@ -20,8 +20,9 @@
 #ifndef PUSHCAMERAI_H
 #define PUSHCAMERAI_H
 
-#include <quadrotor/interfaces/cameraibase.h>
+#include <jderobot/interfaces/pushcameraimpl.h>
 #include <quadrotor/cameraproxy.hh>
+#include <quadrotor/debugtools.h>
 
 
 namespace quadrotor{
@@ -29,7 +30,7 @@ namespace interfaces{
 
 
 class PushCameraI:
-		public quadrotor::interfaces::CameraIBase,
+		public jderobot::interfaces::PushCameraI,
 		public ICameraConsumer
 {
 public:
