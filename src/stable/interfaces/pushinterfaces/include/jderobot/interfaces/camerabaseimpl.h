@@ -43,11 +43,11 @@ public:
     virtual ~CameraBaseI();
 
     jderobot::interfaces::CameraDescription getCameraDescription(
-            const Ice::Current&);
+            const Ice::Current& = ::Ice::Current());
 
     virtual Ice::Int setCameraDescription(
-            const jderobot::interfaces::CameraDescription,
-            const Ice::Current&)
+            const jderobot::interfaces::CameraDescription&,
+            const Ice::Current& = ::Ice::Current())
         { throw jderobot::JderobotException("Not implemented"); }
 
 protected:
