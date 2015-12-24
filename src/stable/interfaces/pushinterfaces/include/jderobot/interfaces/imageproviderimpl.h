@@ -67,7 +67,6 @@ protected:
     /// Use it by your own risk (mutex required)
     jderobot::interfaces::ImageData imageData;
     jderobot::interfaces::ImageFormats imageFormats;
-    jderobot::interfaces::ImageDescription imageDescription;
 
     /// Ice
     IceUtil::Mutex mutex;

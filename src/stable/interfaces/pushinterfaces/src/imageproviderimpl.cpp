@@ -24,7 +24,7 @@ using namespace jderobot::interfaces;
 
 ImageProviderI::ImageProviderI()
 {
-    imageDescription.size = -1;
+    imageData.description.size = -1;
 }
 
 ImageProviderI::~ImageProviderI(){
@@ -34,10 +34,10 @@ ImageProviderI::~ImageProviderI(){
 ImageDescription
 ImageProviderI::getImageDescription(const Ice::Current&){
     IceUtil::Mutex::Lock lock_guard(mutex);
-    if (imageDescription.size == -1)
+    if (imageData.description.size == -1)
         throw jderobot::DataNotExistException("not initialized");
 
-    return imageDescription;
+    return imageData.description;
 }
 
 
