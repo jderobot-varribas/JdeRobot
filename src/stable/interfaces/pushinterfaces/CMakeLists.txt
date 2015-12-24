@@ -43,3 +43,17 @@ target_link_libraries(${PROJECT_NAME}
 # Application
 set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-Wall -Wextra")
 
+
+## Install
+install(TARGETS ${PROJECT_NAME}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_PREFIX}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/jderobot
+)
+
+## Export library variables (like find_package)
+# ToDo: create a macro at cmake/tools/find_package-declarer.cmake
+set(${PROJECT_NAME}_FOUND 1 CACHE BOOL "Find(${PROJECT_NAME})")
+set(${PROJECT_NAME}_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/include" CACHE PATH "Find(${PROJECT_NAME})")
+set(${PROJECT_NAME}_LIBRARY_DIRS "${CMAKE_CURRENT_BINARY_DIR}" CACHE PATH "Find(${PROJECT_NAME})")
+set(${PROJECT_NAME}_LIBRARIES "${PROJECT_NAME}" CACHE STRINGS "Find(${PROJECT_NAME})")
+
