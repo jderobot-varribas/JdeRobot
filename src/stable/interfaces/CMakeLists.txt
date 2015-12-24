@@ -116,6 +116,8 @@ if (build_interfaces_cpp)
     include_directories(${SLICE_CPP_DIR})
     add_library (JderobotInterfaces SHARED ${SLICE_CPP_GENERATED})
     target_link_libraries(JderobotInterfaces ${ice2_LIBRARIES})
+
+    add_subdirectory(pushinterfaces)
 endif()
 
 endif(NOT DEFINED SLICE_NEW_STYLE)
