@@ -7,6 +7,7 @@
 #include <IceUtil/IceUtil.h>
 
 #include <jderobot/motors.h>
+#include <easyiceconfig/EasyProxy.h> 
 
 class Actuators
 {
@@ -33,7 +34,7 @@ private:
     Ice::CommunicatorPtr ic;
 
     // ICE INTERFACES
-    jderobot::MotorsPrx mprx;
+    EasyIce::EasyProxy<jderobot::MotorsPrx> mprx; 
  
     //ICE interfaces available for connection on demand
     bool motorsON ;

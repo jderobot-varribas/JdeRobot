@@ -34,32 +34,20 @@ Sensors::Sensors(Ice::CommunicatorPtr ic)
 		image1.create(400, 400, CV_8UC3);
 	}
 
-    ////////////////////////////// CAMERA2 /////////////////////////////2
-	Ice::ObjectPrx baseCamera2 = ic->propertyToProxy("introrob.Camera2.Proxy");
-    if (0==baseCamera2) {
-		camera2ON = false;
-		image2.create(400, 400, CV_8UC3);
-		std::cout << "Camera2 configuration not specified" <<std::endl;
-      //throw "Could not create proxy";
-	}else{
-    /*cast to CameraPrx*/
-	try {
-		camera2 = jderobot::CameraPrx::checkedCast(baseCamera2);
-		if (0==camera2)
-		  throw "Invalid proxy";
-
+    ////////////////////////////// CAMERA2 /////////////////////////////
+	camera2 = EasyIce::EasyProxy<jderobot::CameraPrx>(ic, "introrob.Camera2.Proxy", false);
+	if (camera2){
 		camera2ON = true;
-		std::cout << "Camera2 connected" << std::endl;
-
 		data = camera2->getImageData(camera2->getImageFormat().at(0));
 		image2.create(data->description->height, data->description->width, CV_8UC3);
-	}catch (Ice::ConnectionRefusedException& e){
+	}else{
 		camera2ON=false;
-		std::cout << "Camera2 inactive" << std::endl;
+		std::cout << "Camera2 inactive." << std::endl;
+		std::cout << "Reason: " << camera2.exception() << std::endl << std::endl;
 
 		//create an empty image if no camera connected (avoid seg. fault)
 		image2.create(400, 400, CV_8UC3);
-	}}
+	}
 
     ////////////////////////////// LASER //////////////////////////////
 	// Contact to LASER interface
