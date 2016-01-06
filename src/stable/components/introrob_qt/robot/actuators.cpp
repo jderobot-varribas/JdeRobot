@@ -1,5 +1,7 @@
 #include "actuators.h"
 
+#include <easyiceconfig/proxies.hpp>
+
 Actuators::Actuators(Ice::CommunicatorPtr ic)
 {
     this->ic = ic;

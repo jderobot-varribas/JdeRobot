@@ -39,7 +39,7 @@ private:
     Ice::CommunicatorPtr ic;
 
     // ICE INTERFACES
-    EasyIce::EasyProxy<jderobot::EncodersPrx> eprx;
+    jderobot::EncodersPrx eprx;
     jderobot::EncodersDataPtr encodersData;
     EasyIce::EasyProxy<jderobot::CameraPrx> camera2;
     EasyIce::EasyProxy<jderobot::CameraPrx> camera1;
